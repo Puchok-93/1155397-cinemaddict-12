@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Павел Пучков](https://up.htmlacademy.ru/ecmascript/12/user/1155397).
-* Наставник: `Неизвестно`.
+* Наставник: Алексей Михеев.
 
 ---
 
