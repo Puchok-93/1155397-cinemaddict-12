@@ -110,8 +110,7 @@ render(sectionFilms, createSectionMoviesElementTemplate(), `beforeEnd`);
 
 const filmsList = sectionFilms.querySelector(`.films-list`);
 const filmsListContainer = filmsList.querySelector(`.films-list__container`);
-const filmsListExtra = sectionFilms.querySelector(`.films-list--extra`);
-const filmsExtraContainer = filmsListExtra.querySelector(`.films-list__container`);
+const filmsListsExtra = sectionFilms.querySelectorAll(`.films-list--extra`);
 
 for (let i = 0; i <= COUNT_MOVIE_CARD; i++) {
   render(filmsListContainer, createMovieCardTemplate(), `beforeEnd`);
@@ -119,6 +118,12 @@ for (let i = 0; i <= COUNT_MOVIE_CARD; i++) {
 
 render(filmsList, createShowMoreButtonTemplate(), `beforeEnd`);
 
-for (let y = 0; y < COUNT_MOVIE_CARD_EXTRA; y++) {
-  render(filmsExtraContainer, createMovieCardTemplate(), `beforeEnd`);
+for (let y = 0; y < filmsListsExtra.length; y++) {
+  const filmsListExtra = filmsListsExtra[y];
+  const filmsListExtraContainer = filmsListExtra.querySelector(`.films-list__container`);
+
+  for (let i = 0; i < COUNT_MOVIE_CARD_EXTRA; i++) {
+    render(filmsListExtraContainer, createMovieCardTemplate(), `beforeEnd`);
+  }
 }
+
