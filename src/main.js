@@ -10,7 +10,7 @@ import {createFooterStatisticTemplate} from "./view/footer-statistic.js";
 
 const COUNT_MOVIE_CARD = 4;
 const COUNT_MOVIE_CARD_EXTRA = 2;
-
+const quantityMovies = `130 291`;
 const siteHeader = document.querySelector(`.header`);
 const siteMain = document.querySelector(`.main`);
 const footer = document.querySelector(`.footer`);
@@ -26,7 +26,7 @@ render(siteHeader, createUserProfileTemplate(), `beforeEnd`);
 render(siteMain, createNavigationTemplate(), `beforeEnd`);
 render(siteMain, createSortTemplate(), `beforeEnd`);
 render(siteMain, createSecionMoviesTemplate(), `beforeEnd`);
-render(footerStatistic, createFooterStatisticTemplate(), `beforeEnd`);
+render(footerStatistic, createFooterStatisticTemplate(quantityMovies), `beforeEnd`);
 
 const sectionFilms = siteMain.querySelector(`.films`);
 
