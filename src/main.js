@@ -16,37 +16,37 @@ const siteMain = document.querySelector(`.main`);
 const footer = document.querySelector(`.footer`);
 const footerStatistic = footer.querySelector(`.footer__statistics`);
 
-const render = (container, template, place) => {
+const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
 
 /* ----- Рендер ----- */
 
-render(siteHeader, createUserProfileTemplate(), `beforeEnd`);
-render(siteMain, createNavigationTemplate(), `beforeEnd`);
-render(siteMain, createSortTemplate(), `beforeEnd`);
-render(siteMain, createSecionMoviesTemplate(), `beforeEnd`);
-render(footerStatistic, createFooterStatisticTemplate(quantityMovies), `beforeEnd`);
+render(siteHeader, createUserProfileTemplate());
+render(siteMain, createNavigationTemplate());
+render(siteMain, createSortTemplate());
+render(siteMain, createSecionMoviesTemplate());
+render(footerStatistic, createFooterStatisticTemplate(quantityMovies));
 
 const sectionFilms = siteMain.querySelector(`.films`);
 
-render(sectionFilms, createSectionMoviesElementTemplate(), `beforeEnd`);
+render(sectionFilms, createSectionMoviesElementTemplate());
 
 const filmsList = sectionFilms.querySelector(`.films-list`);
 const filmsListContainer = filmsList.querySelector(`.films-list__container`);
 const filmsListsExtra = sectionFilms.querySelectorAll(`.films-list--extra`);
 
 for (let i = 0; i <= COUNT_MOVIE_CARD; i++) {
-  render(filmsListContainer, createMovieCardTemplate(), `beforeEnd`);
+  render(filmsListContainer, createMovieCardTemplate());
 }
 
-render(filmsList, createShowMoreButtonTemplate(), `beforeEnd`);
+render(filmsList, createShowMoreButtonTemplate());
 
 for (let y = 0; y < filmsListsExtra.length; y++) {
   const filmsListExtra = filmsListsExtra[y];
   const filmsListExtraContainer = filmsListExtra.querySelector(`.films-list__container`);
 
   for (let i = 0; i < COUNT_MOVIE_CARD_EXTRA; i++) {
-    render(filmsListExtraContainer, createMovieCardTemplate(), `beforeEnd`);
+    render(filmsListExtraContainer, createMovieCardTemplate());
   }
 }
