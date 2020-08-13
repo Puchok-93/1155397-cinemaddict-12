@@ -1,25 +1,21 @@
-const filter = {
-  Watchlist: 0,
-  History: 0,
-  Favorites: 0
+const addFilteredFilmsCount = (filter, check) => {
+  return (check) ? (filter || 0) + 1 : filter || 0;
 };
 
-export const generateFilter = (cards) => {
-
-  cards.forEach((card) => {
-    if (card.isWatch) {
-      filter.Watchlist++;
-    } else if (card.isHistory) {
-      filter.History++;
-    } else if (card.isFavorite) {
-      filter.Favorites++;
-    }
-  });
-
-  return Object.entries(filter).map(([filterName, countCards]) => {
+export const generateFilters = (cards) => {
+  if (cards.length === 0) {
     return {
-      name: filterName,
-      count: countCards
+      watchlist: 0,
+      history: 0,
+      favorites: 0
     };
-  });
+  }
+
+  return cards.reduce((filter, card) => {
+    filter.watchlist = addFilteredFilmsCount(filter.watchlist, card.isWatch);
+    filter.history = addFilteredFilmsCount(filter.history, card.isHistory);
+    filter.favorites = addFilteredFilmsCount(filter.favorites, card.isFavorites);
+
+    return filter;
+  }, {});
 };

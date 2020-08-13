@@ -1,6 +1,6 @@
 /* View */
 import {createUserProfileTemplate} from "./view/user-profile.js";
-import {createFilterTemplate} from "./view/navigation.js";
+import {createFilterTemplate} from "./view/filter.js";
 import {createSortTemplate} from "./view/sort.js";
 import {createSecionMoviesTemplate} from "./view/section-movies.js";
 import {createSectionMoviesElementTemplate} from "./view/section-movies-elements.js";
@@ -10,28 +10,26 @@ import {createFooterStatisticTemplate} from "./view/footer-statistic.js";
 import {createPopupTemplate} from "./view/popup.js";
 
 /* Моки */
-import {generateFilter} from "./mock/filter.js";
-import {generateMovieCard} from "./mock/movie-card.js";
-import {generatePopup} from "./mock/popup.js";
+import {generateFilters} from "./mock/filter.js";
+import {generateMovieCards, getTopRatedFilms, getMostCommentedFilms} from "./mock/movie-card.js";
 
 /* Утилитарные */
-
 import {render} from "./utils.js";
 
 /* Константы */
+import {COUNT_MOVIE_CARD, COUNT_MOVIE_CARD_STEP, COUNT_MOVIE_CARD_EXTRA} from "./const.js";
 
-import {COUNT_MOVIE_CARD, COUNT_MOVIE_CARD_STEP} from "./const.js";
-
-const cards = new Array(COUNT_MOVIE_CARD).fill().map(generateMovieCard);
-const filters = generateFilter(cards);
-const popup = generatePopup(cards);
 const quantityMovies = `130 291`;
 const siteHeader = document.querySelector(`.header`);
 const siteMain = document.querySelector(`.main`);
 const footer = document.querySelector(`.footer`);
 const footerStatistic = footer.querySelector(`.footer__statistics`);
 
-/* ----- Рендер ----- */
+const cards = generateMovieCards(COUNT_MOVIE_CARD);
+const topRatedFilms = getTopRatedFilms(cards, COUNT_MOVIE_CARD_EXTRA);
+const mostCommentedFilms = getMostCommentedFilms(cards, COUNT_MOVIE_CARD_EXTRA);
+const filters = generateFilters(cards);
+const popup = generateMovieCards();
 
 render(siteHeader, createUserProfileTemplate());
 render(siteMain, createFilterTemplate(filters));
@@ -44,33 +42,46 @@ const sectionFilms = siteMain.querySelector(`.films`);
 render(sectionFilms, createSectionMoviesElementTemplate());
 
 const filmsList = sectionFilms.querySelector(`.films-list`);
-const filmsListContainer = filmsList.querySelector(`.films-list__container`);
+const filmsListContainer = filmsList.querySelectorAll(`.films-list__container`);
 
-const count = Math.min(cards.length, COUNT_MOVIE_CARD_STEP);
-for (let i = 0; i < count; i++) {
-  render(filmsListContainer, createMovieCardTemplate(cards[i]));
-}
+const renderMovieCard = (container, card) => {
+  render(container, createMovieCardTemplate(card));
+};
 
-if (cards.length > COUNT_MOVIE_CARD_STEP) {
-  let renderedMovieCard = COUNT_MOVIE_CARD_STEP;
+const renderMovieCards = (count, container) => {
+  for (let i = 0; i < count; i++) {
+    renderMovieCard(container, cards[i]);
+  }
+};
 
-  render(filmsList, createShowMoreButtonTemplate());
+Array.from(filmsListContainer).forEach((item) => {
+  if (item.parentElement.children[0].textContent === `Top rated`) {
+    renderMovieCards(COUNT_MOVIE_CARD_EXTRA, item, topRatedFilms);
+  } else if (item.parentElement.children[0].textContent === `Most commented`) {
+    renderMovieCards(COUNT_MOVIE_CARD_EXTRA, item, mostCommentedFilms);
+  } else {
+    renderMovieCards(Math.min(cards.length, COUNT_MOVIE_CARD_STEP), item, cards);
 
-  const showMoreButton = document.querySelector(`.films-list__show-more`);
+    if (cards.length > COUNT_MOVIE_CARD_STEP) {
+      let renderedFilmsCount = COUNT_MOVIE_CARD_STEP;
+      render(filmsList, createShowMoreButtonTemplate());
 
-  showMoreButton.addEventListener(`click`, function (evt) {
-    evt.preventDefault();
-    cards
-      .slice(renderedMovieCard, renderedMovieCard + COUNT_MOVIE_CARD_STEP)
-      .forEach((card) => render(filmsListContainer, createMovieCardTemplate(card)), `afterend`);
-    renderedMovieCard += COUNT_MOVIE_CARD_STEP;
-    if (renderedMovieCard >= cards.length) {
-      showMoreButton.remove();
+      const showMoreButton = filmsList.querySelector(`.films-list__show-more`);
+
+      const onShowMoreButtonClick = (evt) => {
+        evt.preventDefault();
+        cards.slice(renderedFilmsCount, renderedFilmsCount + COUNT_MOVIE_CARD_STEP).forEach((card) => renderMovieCard(item, card));
+
+        renderedFilmsCount += COUNT_MOVIE_CARD_STEP;
+
+        if (renderedFilmsCount >= cards.length) {
+          showMoreButton.remove();
+        }
+      };
+
+      showMoreButton.addEventListener(`click`, onShowMoreButtonClick);
     }
-  });
-}
-
-const filmCard = document.querySelector(`.film-card`);
-filmCard.addEventListener(`click`, function () {
-  render(siteMain, createPopupTemplate(popup));
+  }
 });
+
+render(siteMain, createPopupTemplate(popup[0]));
