@@ -14,14 +14,13 @@ export const getRandomValue = (list) => {
   return list[randomIndex];
 };
 
-export const generateUniqueCompilation = (source, dictionary) => {
-  const {min, max} = dictionary;
-  const count = getRandomInteger(min, max);
-  const uniqueValues = new Set();
-
-  for (let i = 0; i < count; i++) {
-    uniqueValues.add(getRandomValue(source));
+export const generateSet = (source, counter) => {
+  const randomCount = getRandomInteger(counter.MIN, counter.MAX);
+  let typeSet = [];
+  for (let i = 0; i < randomCount; i++) {
+    let randomIndex = getRandomInteger(0, source.length - 1);
+    typeSet.push(source[randomIndex]);
   }
-
-  return Array.from(uniqueValues);
+  typeSet = new Set(typeSet);
+  return [...typeSet];
 };

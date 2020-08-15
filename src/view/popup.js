@@ -18,10 +18,11 @@ const createGenresTemplate = (genres) => {
 };
 
 export const createPopupTemplate = (card) => {
-  const {title, poster, raiting, duration, date, description, director, country, age, genre, writers, actors, comments} = card;
+  const {title, poster, rating, duration, date, description, director, country, age, genre, writers, actors, comments} = card;
   const releaseDate = date.toLocaleString(`en-GB`, {day: `numeric`, month: `long`, year: `numeric`});
   const genresMarkup = createGenresTemplate(genre);
   const commentsMarkup = createCommentsTemplate(comments);
+  const decimalRating = (rating / 10).toFixed(1);
 
   return (
     `<section class="film-details">
@@ -45,7 +46,7 @@ export const createPopupTemplate = (card) => {
                   </div>
 
                   <div class="film-details__rating">
-                    <p class="film-details__total-rating">${raiting}</p>
+                    <p class="film-details__total-rating">${decimalRating}</p>
                   </div>
                 </div>
 

@@ -1,4 +1,4 @@
-import {getRandomInteger, generateUniqueCompilation} from "../utils";
+import {getRandomInteger, generateSet} from "../utils";
 import {generateComments} from "./comment.js";
 
 const Title = {
@@ -48,14 +48,10 @@ const generateMoviePoster = () => {
 };
 
 /* Генерируем случайный рейтинг для карточки анонса */
-const filmRating = {
-  min: 10,
-  max: 100
-};
 
-const generateRating = () => {
-  const {min, max} = filmRating;
-  return (getRandomInteger(min, max) / 10).toFixed(1);
+const FilmRating = {
+  MIN: 1,
+  MAX: 100,
 };
 
 /* Генерируем случайный год выпуска для карточки анонса */
@@ -71,18 +67,19 @@ const generateComment = () => {
 };
 
 /* Генерируем случайную  продолжительность */
-const filmDurationMax = {
-  hours: 4,
-  minutes: 60
+const FilmDurationMax = {
+  HOURS: 4,
+  MINUTES: 60,
 };
 
 const generateDuration = () => {
-  const {hours, minutes} = filmDurationMax;
-  const hoursDuration = getRandomInteger(0, hours);
-  const minutesDuration = getRandomInteger(0, minutes);
+  const {HOURS, MINUTES} = FilmDurationMax;
+  const hoursDuration = getRandomInteger(0, HOURS);
+  const minutesDuration = getRandomInteger(0, MINUTES);
 
   return `${hoursDuration > 0 ? `${hoursDuration}h` : ``} ${minutesDuration > 0 ? `${minutesDuration}m` : ``}`;
 };
+
 
 /* Генерируем случайное описание фильма*/
 
@@ -209,9 +206,9 @@ const GENRES = [
   Genre.CARTOON,
 ];
 
-const genresCount = {
-  min: 1,
-  max: 3
+const GenresCount = {
+  MIN: 1,
+  MAX: 3
 };
 
 /* Генерируем писателей */
@@ -230,9 +227,9 @@ const WRITERS = [
   Writers.TARANTINO,
 ];
 
-const writersCount = {
-  min: 1,
-  max: 4
+const WritersCount = {
+  MIN: 1,
+  MAX: 4
 };
 
 /* Генерируем актеров */
@@ -253,9 +250,9 @@ const ACTORS = [
   Actors.GARFIELD,
 ];
 
-const actorsCount = {
-  min: 1,
-  max: 5
+const ActorsCount = {
+  MIN: 1,
+  MAX: 5
 };
 
 const generateMovieCard = () => {
@@ -264,7 +261,7 @@ const generateMovieCard = () => {
   return {
     title: generateMovieTitle(),
     poster: generateMoviePoster(),
-    raiting: generateRating(),
+    rating: getRandomInteger(FilmRating.MIN, FilmRating.MAX),
     year: generateMovieYear(),
     comment: generateComment(),
     date: generateDate(),
@@ -276,9 +273,9 @@ const generateMovieCard = () => {
     director: generateDirector(),
     country: generateCountry(),
     age: generateAgeRaiting(),
-    genre: generateUniqueCompilation(GENRES, genresCount),
-    writers: generateUniqueCompilation(WRITERS, writersCount),
-    actors: generateUniqueCompilation(ACTORS, actorsCount),
+    genre: generateSet(GENRES, GenresCount),
+    writers: generateSet(WRITERS, WritersCount),
+    actors: generateSet(ACTORS, ActorsCount),
     comments: generateComments(commentsCount)
   };
 };
