@@ -5,7 +5,7 @@ const addFilteredFilmsCount = (filter, card) => {
   if (card.isHistory) {
     filter.history++;
   }
-  if (filter.isFavorites) {
+  if (card.isFavorites) {
     filter.favorites++;
   }
 };

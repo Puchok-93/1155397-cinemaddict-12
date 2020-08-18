@@ -1,4 +1,5 @@
 import {createCommentsTemplate} from "./comment.js";
+import {createElement} from "../utils.js";
 
 const createGenresTemplate = (genres) => {
 
@@ -17,7 +18,7 @@ const createGenresTemplate = (genres) => {
   );
 };
 
-export const createPopupTemplate = (card) => {
+const createPopupTemplate = (card) => {
   const {title, poster, rating, duration, date, description, director, country, age, genre, writers, actors, comments} = card;
   const releaseDate = date.toLocaleString(`en-GB`, {day: `numeric`, month: `long`, year: `numeric`});
   const genresMarkup = createGenresTemplate(genre);
@@ -101,3 +102,26 @@ export const createPopupTemplate = (card) => {
       </section>`
   );
 };
+
+export default class PopupCard {
+  constructor(card) {
+    this._card = card;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createPopupTemplate(this._card);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
