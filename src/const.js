@@ -10,3 +10,4 @@ export const EMOJIS = [
 export const MAX_DAYS_GUP = 30;
 export const MAX_HOURS = 23;
 export const MAX_MINUTES = 59;
+export const CLICK_ITEMS = [`.film-card__title`, `.film-card__poster`, `.film-card__comments`];
