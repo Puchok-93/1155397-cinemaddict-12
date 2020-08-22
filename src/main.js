@@ -91,7 +91,6 @@ render(siteHeader, new UserProfile().getElement());
 render(siteMain, new SiteFilter(filters).getElement());
 render(siteMain, new SiteSort().getElement());
 render(footerStatistic, new FooterStatistic(quantityMovies).getElement());
-
 render(siteMain, filmsComponentElement);
 render(filmsComponentElement, filmListComponent.getElement());
 render(filmListComponent.getElement(), filmListContainerComponent.getElement());
@@ -101,24 +100,26 @@ for (let i = 1; i <= count; i++) {
   renderCard(filmListContainerComponent.getElement(), cards[i]);
 }
 
-render(filmsComponentElement, topRatedFilmsComponent.getElement());
-render(filmsComponentElement, mostcommentedFilmsComponent.getElement());
-render(topRatedFilmsComponent.getElement(), new FilmListContainer().getElement());
-render(mostcommentedFilmsComponent.getElement(), new FilmListContainer().getElement());
-
 const renderFilmExtraCard = (cards, container) => {
   return cards.forEach((item) => {
     renderCard(container, item);
   });
 };
 
-renderFilmExtraCard(topRatedFilms, topRatedFilmsComponent.getElement().lastElementChild);
-renderFilmExtraCard(mostCommentedFilms, mostcommentedFilmsComponent.getElement().lastElementChild);
-
 if (cards.length === 0) {
   render(filmListContainerComponent.getElement(), noFilmCardComponent.getElement());
-  topRatedFilmsComponent.getElement().remove();
-  mostcommentedFilmsComponent.getElement().remove();
+}
+
+if (topRatedFilms.length !== 0) {
+  render(filmsComponentElement, topRatedFilmsComponent.getElement());
+  render(topRatedFilmsComponent.getElement(), new FilmListContainer().getElement());
+  renderFilmExtraCard(topRatedFilms, topRatedFilmsComponent.getElement().lastElementChild);
+}
+
+if (mostCommentedFilms.length !== 0) {
+  render(filmsComponentElement, mostcommentedFilmsComponent.getElement());
+  render(mostcommentedFilmsComponent.getElement(), new FilmListContainer().getElement());
+  renderFilmExtraCard(mostCommentedFilms, mostcommentedFilmsComponent.getElement().lastElementChild);
 }
 
 if (cards.length > COUNT_MOVIE_CARD_STEP) {

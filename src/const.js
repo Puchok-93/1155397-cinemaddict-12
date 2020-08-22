@@ -1,6 +1,6 @@
-export const COUNT_MOVIE_CARD = 20;
+export const COUNT_MOVIE_CARD = 0;
 export const COUNT_MOVIE_CARD_STEP = 5;
-export const COUNT_MOVIE_CARD_EXTRA = 2;
+export const COUNT_MOVIE_CARD_EXTRA = 0;
 export const EMOJIS = [
   `./images/emoji/smile.png`,
   `./images/emoji/sleeping.png`,
