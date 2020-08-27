@@ -1,4 +1,4 @@
-import {getRandomInteger, generateSet} from "../utils";
+import {getRandomInteger, generateSet} from "../utils/common.js";
 import {generateComments} from "./comment.js";
 
 const Title = {

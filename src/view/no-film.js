@@ -1,28 +1,15 @@
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createNoFilmCardTemplate = () => {
   return (
-    `<h2 class="films-list__title">There are no movies in our database</h2>`
+    `<section class="films-list">
+    <h2 class="films-list__title">There are no movies in our database</h2>
+  </section>`
   );
 };
 
-export default class NoFilmCard {
-  constructor() {
-    this._element = null;
-  }
-
+export default class NoFilmCard extends Abstract {
   getTemplate() {
     return createNoFilmCardTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

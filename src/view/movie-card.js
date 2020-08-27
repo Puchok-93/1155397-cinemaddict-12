@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createMovieCardTemplate = (card) => {
   const {title, poster, rating, year, duration, description, isWatch, isHistory, isFavorites, genre, comment} = card;
@@ -30,26 +30,14 @@ const createMovieCardTemplate = (card) => {
   );
 };
 
-export default class MovieCard {
+export default class MovieCard extends Abstract {
   constructor(card) {
+    super();
     this._card = card;
-    this._element = null;
   }
 
   getTemplate() {
     return createMovieCardTemplate(this._card);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 
