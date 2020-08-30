@@ -26,6 +26,7 @@ export default class FilmBoard {
 
     this._filmsComponent = new SiteFilms();
     this._noFilmCardComponent = new NoFilmCard();
+
     this._mainFilmListComponent = new SectionFilmsList();
     this._topRatedFilmsComponent = new TopRatedFilms();
     this._mostcommentedFilmsComponent = new MostcommentedFilms();
@@ -34,14 +35,17 @@ export default class FilmBoard {
     this._topRatedFilmsListComponent = new FilmListContainer();
     this._mostCommentedFilmsListComponent = new FilmListContainer();
 
+    this._renderedFilmsFrom = 0;
+    this._renderedFilmsTo = 0;
+
     this._showMoreButtonComponent = new ShowMoreButton();
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
   }
 
-  init(films) {
-    this._films = films.slice();
-    this._topRatedFilms = getTopRatedFilms(this._films);
-    this._mostCommentedFilms = getMostCommentedFilms(this._films);
+  init(cards) {
+    this._cards = cards.slice();
+    this._topRatedFilms = getTopRatedFilms(this._cards);
+    this._mostCommentedFilms = getMostCommentedFilms(this._cards);
 
     render(this._movieListContainer, this._filmsComponent);
 
@@ -78,9 +82,9 @@ export default class FilmBoard {
 
   /* --------------------------------------------- Рендерим фильмы ------------------------------------------------- */
 
-  _renderFilms(container, films, min, max) {
-    films.slice(min, max)
-    .forEach((film) => this._renderFilmCard(container, film));
+  _renderFilms(container, from, to) {
+    this._cards.slice(from, to)
+    .forEach((card) => this._renderFilmCard(container, card));
   }
 
   /* --------------------------------------------- Рендерим заглушку, если нет фильмов ------------------------------------------------- */
@@ -92,27 +96,27 @@ export default class FilmBoard {
   /* --------------------------------------------- Рендерим основной список фильмов ------------------------------------------------- */
 
   _renderAllMoviesList() {
-    this._renderFilms(this._allFilmsListComponent, this._films, 0, Math.min(this._films.length, COUNT_MOVIE_CARD_STEP));
+    render(this._mainFilmListComponent, this._allFilmsListComponent);
   }
 
   /* --------------------------------------------- Рендерим список top rated фильмов ------------------------------------------------- */
 
   _renderTopRatedList() {
-    this._renderFilms(this._topRatedFilmsListComponent, this._films, 0, Math.min(this._films.length, COUNT_MOVIE_CARD_EXTRA));
+    render(this._filmsComponent, this._topRatedFilmsComponent);
   }
 
   /* --------------------------------------------- Рендерим список most commented фильмов ------------------------------------------------- */
 
   _renderMostCommentedList() {
-    this._renderFilms(this._mostCommentedFilmsListComponent, this._films, 0, Math.min(this._films.length, COUNT_MOVIE_CARD_EXTRA));
+    render(this._filmsComponent, this._mostcommentedFilmsComponent);
   }
 
 
   _handleShowMoreButtonClick() {
-    this._renderFilms(this._allFilmsListComponent, this._films, this._renderedFilmsCount, this._renderedFilmsCount + COUNT_MOVIE_CARD_STEP);
-    this._renderedFilmsCount += COUNT_MOVIE_CARD_STEP;
+    this._calculateRange();
+    this._renderMovies();
 
-    if (this._renderedFilmsCount >= this._films.length) {
+    if (this._renderedFilmsTo >= this._cards.length) {
       remove(this._showMoreButtonComponent);
     }
   }
@@ -124,14 +128,30 @@ export default class FilmBoard {
     this._showMoreButtonComponent.setClickHandlerButton(this._handleShowMoreButtonClick);
   }
 
+  /* --------------------------------------------- Вычисляем диапазон карточек фильмов  ------------------------------------------------- */
+
+  _calculateRange() {
+    this._renderedFilmsFrom = this._renderedFilmsTo;
+    this._renderedFilmsTo = Math.min(this._cards.length, (this._renderedFilmsFrom + COUNT_MOVIE_CARD_STEP));
+  }
+
+  /* --------------------------------------------- Рендерим карточки фильмов  ------------------------------------------------- */
+
+  _renderMovies() {
+    this._renderFilms(this._allFilmsListComponent, this._renderedFilmsFrom, this._renderedFilmsTo);
+  }
+
   /* ---------------------------------------------Рендерим основной блок с фильмами  ------------------------------------------------- */
 
   _renderAllMovies() {
     this._renderAllMoviesList();
-    render(this._mainFilmListComponent, this._allFilmsListComponent);
+
     render(this._filmsComponent, this._mainFilmListComponent);
 
-    if (this._films.length > COUNT_MOVIE_CARD_STEP) {
+    this._calculateRange();
+    this._renderMovies();
+
+    if (this._cards.length > COUNT_MOVIE_CARD_STEP) {
       this._renderShowMoreButton();
     }
   }
@@ -141,7 +161,7 @@ export default class FilmBoard {
   _renderTopRatedFilms() {
     this._renderTopRatedList();
     render(this._topRatedFilmsComponent, this._topRatedFilmsListComponent);
-    render(this._filmsComponent, this._topRatedFilmsComponent);
+    this._renderFilms(this._topRatedFilmsListComponent, 0, Math.min(this._cards.length, COUNT_MOVIE_CARD_EXTRA));
   }
 
   /* --------------------------------------------- Рендерим most commented блок  ------------------------------------------------- */
@@ -149,13 +169,13 @@ export default class FilmBoard {
   _renderMostCommented() {
     this._renderMostCommentedList();
     render(this._mostcommentedFilmsComponent, this._mostCommentedFilmsListComponent);
-    render(this._filmsComponent, this._mostcommentedFilmsComponent);
+    this._renderFilms(this._mostCommentedFilmsListComponent, 0, Math.min(this._cards.length, COUNT_MOVIE_CARD_EXTRA));
   }
 
   /* ---------------------------------------------Рендерим блоки с фильмами ------------------------------------------------- */
 
   _renderFilmLists() {
-    if (this._films.length === 0) {
+    if (this._cards.length === 0) {
       this._renderNoFilmCard();
       return;
     }

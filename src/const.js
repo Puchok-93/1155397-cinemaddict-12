@@ -1,4 +1,4 @@
-export const COUNT_MOVIE_CARD = 25;
+export const COUNT_MOVIE_CARD = 6;
 export const COUNT_MOVIE_CARD_STEP = 5;
 export const COUNT_MOVIE_CARD_EXTRA = 2;
 export const EMOJIS = [
