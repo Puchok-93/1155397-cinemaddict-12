@@ -23,6 +23,7 @@ export default class FilmBoard {
   constructor(movieListContainer) {
     this._movieListContainer = movieListContainer;
     this._renderedFilmsCount = COUNT_MOVIE_CARD_STEP;
+    this._renderedFilmsExtraCount = COUNT_MOVIE_CARD_EXTRA;
 
     this._filmsComponent = new SiteFilms();
     this._noFilmCardComponent = new NoFilmCard();
@@ -82,7 +83,7 @@ export default class FilmBoard {
 
   /* --------------------------------------------- Рендерим фильмы ------------------------------------------------- */
 
-  _renderFilms(container, from, to) {
+  _renderFilms(container, count, from, to) {
     this._cards.slice(from, to)
     .forEach((card) => this._renderFilmCard(container, card));
   }
@@ -102,13 +103,13 @@ export default class FilmBoard {
   /* --------------------------------------------- Рендерим список top rated фильмов ------------------------------------------------- */
 
   _renderTopRatedList() {
-    render(this._filmsComponent, this._topRatedFilmsComponent);
+    this._renderFilms(this._topRatedFilmsListComponent, this._topRatedFilms, 0, this._renderedFilmsExtraCount);
   }
 
   /* --------------------------------------------- Рендерим список most commented фильмов ------------------------------------------------- */
 
   _renderMostCommentedList() {
-    render(this._filmsComponent, this._mostcommentedFilmsComponent);
+    this._renderFilms(this._mostCommentedFilmsListComponent, this._mostCommentedFilms, 0, this._renderedFilmsExtraCount);
   }
 
 
@@ -138,7 +139,7 @@ export default class FilmBoard {
   /* --------------------------------------------- Рендерим карточки фильмов  ------------------------------------------------- */
 
   _renderMovies() {
-    this._renderFilms(this._allFilmsListComponent, this._renderedFilmsFrom, this._renderedFilmsTo);
+    this._renderFilms(this._allFilmsListComponent, this._films, this._renderedFilmsFrom, this._renderedFilmsTo);
   }
 
   /* ---------------------------------------------Рендерим основной блок с фильмами  ------------------------------------------------- */
@@ -160,16 +161,16 @@ export default class FilmBoard {
 
   _renderTopRatedFilms() {
     this._renderTopRatedList();
+    render(this._filmsComponent, this._topRatedFilmsComponent);
     render(this._topRatedFilmsComponent, this._topRatedFilmsListComponent);
-    this._renderFilms(this._topRatedFilmsListComponent, 0, Math.min(this._cards.length, COUNT_MOVIE_CARD_EXTRA));
   }
 
   /* --------------------------------------------- Рендерим most commented блок  ------------------------------------------------- */
 
   _renderMostCommented() {
     this._renderMostCommentedList();
+    render(this._filmsComponent, this._mostcommentedFilmsComponent);
     render(this._mostcommentedFilmsComponent, this._mostCommentedFilmsListComponent);
-    this._renderFilms(this._mostCommentedFilmsListComponent, 0, Math.min(this._cards.length, COUNT_MOVIE_CARD_EXTRA));
   }
 
   /* ---------------------------------------------Рендерим блоки с фильмами ------------------------------------------------- */
