@@ -1,4 +1,4 @@
-import {createElement} from "../utils.js";
+import Abstract from "./abstract.js";
 
 const createTopRatedFimlsTemplate = () => {
   return (
@@ -8,24 +8,8 @@ const createTopRatedFimlsTemplate = () => {
   );
 };
 
-export default class TopRatedFilms {
-  constuctor() {
-    this._element = null;
-  }
-
+export default class TopRatedFilms extends Abstract {
   getTemplate() {
     return createTopRatedFimlsTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

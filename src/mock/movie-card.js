@@ -1,4 +1,4 @@
-import {getRandomInteger, generateSet} from "../utils";
+import {getRandomInteger, generateSet} from "../utils/common.js";
 import {generateComments} from "./comment.js";
 
 const Title = {
@@ -257,7 +257,6 @@ const ActorsCount = {
 
 const generateMovieCard = () => {
   const commentsCount = getRandomInteger(0, 5);
-
   return {
     title: generateMovieTitle(),
     poster: generateMoviePoster(),
