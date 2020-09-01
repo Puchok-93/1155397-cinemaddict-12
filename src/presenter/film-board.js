@@ -83,8 +83,8 @@ export default class FilmBoard {
 
   /* --------------------------------------------- Рендерим фильмы ------------------------------------------------- */
 
-  _renderFilms(container, count, from, to) {
-    this._cards.slice(from, to)
+  _renderFilms(container, films, from, to) {
+    films.slice(from, to)
     .forEach((card) => this._renderFilmCard(container, card));
   }
 
@@ -139,7 +139,7 @@ export default class FilmBoard {
   /* --------------------------------------------- Рендерим карточки фильмов  ------------------------------------------------- */
 
   _renderMovies() {
-    this._renderFilms(this._allFilmsListComponent, this._films, this._renderedFilmsFrom, this._renderedFilmsTo);
+    this._renderFilms(this._allFilmsListComponent, this._cards, this._renderedFilmsFrom, this._renderedFilmsTo);
   }
 
   /* ---------------------------------------------Рендерим основной блок с фильмами  ------------------------------------------------- */

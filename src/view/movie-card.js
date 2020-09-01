@@ -1,12 +1,12 @@
 import Abstract from "./abstract.js";
 
 const createMovieCardTemplate = (card) => {
-  const {title, poster, rating, year, duration, description, isWatch, isHistory, isFavorites, genre, comment} = card;
+  const {title, poster, rating, year, duration, description, isWatch, isHistory, isFavorites, genre, comments} = card;
 
   const isWatchClassName = isWatch ? `film-card__controls-item--active` : `film-card__controls-item`;
   const isHistoryClassName = isHistory ? `film-card__controls-item--active` : `film-card__controls-item`;
   const isFavoriteClassName = isFavorites ? `film-card__controls-item--active` : `film-card__controls-item`;
-  const numberOfComments = comment === 1 ? comment + ` comment` : comment + ` comments`;
+
   const decimalRating = (rating / 10).toFixed(1);
 
   return (
@@ -20,7 +20,7 @@ const createMovieCardTemplate = (card) => {
     </p>
     <img src="./images/posters/${poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${description}</p>
-    <a class="film-card__comments">${numberOfComments}</a>
+    <a class="film-card__comments">${comments.length} comments</a>
     <form class="film-card__controls">
     <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isWatchClassName}">Add to watchlist</button>
     <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isHistoryClassName}">Mark as watched</button>

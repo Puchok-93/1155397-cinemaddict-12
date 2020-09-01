@@ -257,7 +257,6 @@ const ActorsCount = {
 
 const generateMovieCard = () => {
   const commentsCount = getRandomInteger(0, 5);
-
   return {
     title: generateMovieTitle(),
     poster: generateMoviePoster(),
@@ -279,6 +278,8 @@ const generateMovieCard = () => {
     comments: generateComments(commentsCount)
   };
 };
+
+
 
 export const generateMovieCards = (count) => {
   return new Array(count).fill().map(generateMovieCard);
