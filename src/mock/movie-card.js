@@ -279,8 +279,6 @@ const generateMovieCard = () => {
   };
 };
 
-
-
 export const generateMovieCards = (count) => {
   return new Array(count).fill().map(generateMovieCard);
 };
