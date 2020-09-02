@@ -50,7 +50,7 @@ export default class FilmBoard {
 
     this._topRatedFilms = getTopRatedFilms(this._cards);
     this._mostCommentedFilms = getMostCommentedFilms(this._cards);
-
+    this._renderFilmSort();
     render(this._movieListContainer, this._filmsComponent);
 
     this._renderFilmLists();
@@ -88,12 +88,14 @@ export default class FilmBoard {
   _clearFilmList() {
     this._allFilmsListComponent.getElement().innerHTML = ``;
     this._renderedFilmsCount = COUNT_MOVIE_CARD_STEP;
+    this._renderedFilmsFrom = 0;
+    this._renderedFilmsTo = 0;
   }
 
   /* --------------------------------------------- Рендерим сортировку фильмов ------------------------------------------------- */
 
   _renderFilmSort() {
-    render(siteMain, this._filmSortComponent, RenderPosition.AFTERBEGIN);
+    render(siteMain, this._filmSortComponent);
     this._filmSortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
@@ -223,7 +225,7 @@ export default class FilmBoard {
       this._renderNoFilmCard();
       return;
     }
-    this._renderFilmSort();
+
     this._renderAllMovies();
     this._renderTopRatedFilms();
     this._renderMostCommented();
