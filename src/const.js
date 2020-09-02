@@ -11,3 +11,14 @@ export const MAX_DAYS_GUP = 30;
 export const MAX_HOURS = 23;
 export const MAX_MINUTES = 59;
 export const CLICK_ITEMS = [`.film-card__title`, `.film-card__poster`, `.film-card__comments`];
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`
+};
+
+export const EscButton = {
+  ESCAPE: `Escape`,
+  ESC: `Esc`,
+};

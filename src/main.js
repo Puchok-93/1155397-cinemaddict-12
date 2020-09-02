@@ -5,7 +5,6 @@ import {COUNT_MOVIE_CARD} from "./const.js";
 
 import UserProfile from "./view/user-profile.js";
 import SiteFilter from "./view/filter.js";
-import SiteSort from "./view/sort.js";
 import FooterStatistic from "./view/footer-statistic.js";
 import FilmBoard from "./presenter/film-board.js";
 
@@ -21,8 +20,7 @@ const quantityMovies = cards.length;
 
 render(siteHeader, new UserProfile());
 render(siteMain, new SiteFilter(filters));
-render(siteMain, new SiteSort());
+filmBoardPresenter.init(cards);
 render(footerStatistic, new FooterStatistic(quantityMovies));
 
-filmBoardPresenter.init(cards);
 
