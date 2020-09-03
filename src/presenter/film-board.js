@@ -1,7 +1,10 @@
 import {getTopRatedFilms, getMostCommentedFilms} from "../mock/movie-card.js";
-import {render, remove} from "../utils/render.js";
+import {render, remove, RenderPosition} from "../utils/render.js";
+import {sortByRating, sortByDate} from "../utils/sort-film.js";
+import {SortType, COUNT_MOVIE_CARD_STEP, COUNT_MOVIE_CARD_EXTRA, EscButton} from "../const.js";
 
 import SiteFilms from "../view/section-films.js";
+import SiteSort from "../view/sort.js";
 import SectionFilmsList from "../view/films-list.js";
 import FilmListContainer from "../view/filmlist-container.js";
 import TopRatedFilms from "../view/top-rated.js";
@@ -11,21 +14,18 @@ import PopupCard from "../view/popup.js";
 import ShowMoreButton from "../view/show-more-button.js";
 import NoFilmCard from "../view/no-film.js";
 
-const COUNT_MOVIE_CARD_STEP = 5;
-const COUNT_MOVIE_CARD_EXTRA = 2;
 const siteBody = document.body;
-const EscButton = {
-  ESCAPE: `Escape`,
-  ESC: `Esc`,
-};
+const siteMain = document.querySelector(`.main`);
 
 export default class FilmBoard {
   constructor(movieListContainer) {
     this._movieListContainer = movieListContainer;
     this._renderedFilmsCount = COUNT_MOVIE_CARD_STEP;
     this._renderedFilmsExtraCount = COUNT_MOVIE_CARD_EXTRA;
+    this._currentSortType = SortType.DEFAULT;
 
     this._filmsComponent = new SiteFilms();
+    this._filmSortComponent = new SiteSort();
     this._noFilmCardComponent = new NoFilmCard();
 
     this._mainFilmListComponent = new SectionFilmsList();
@@ -41,16 +41,62 @@ export default class FilmBoard {
 
     this._showMoreButtonComponent = new ShowMoreButton();
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
+    this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(cards) {
     this._cards = cards.slice();
+    this._sourcedCards = cards.slice();
+
     this._topRatedFilms = getTopRatedFilms(this._cards);
     this._mostCommentedFilms = getMostCommentedFilms(this._cards);
-
+    this._renderFilmSort();
     render(this._movieListContainer, this._filmsComponent);
 
     this._renderFilmLists();
+  }
+
+  /* --------------------------------------------- Сортируем фильмы --------------------------------------------- */
+
+  _sortFilms(sortType) {
+    switch (sortType) {
+      case SortType.DATE:
+        this._cards.sort(sortByDate);
+        break;
+      case SortType.RATING:
+        this._cards.sort(sortByRating);
+        break;
+      default:
+        this._cards = this._sourcedCards.slice();
+    }
+
+    this._currentSortType = sortType;
+  }
+
+  _handleSortTypeChange(sortType) {
+    if (this._currentSortType === sortType) {
+      return;
+    }
+
+    this._sortFilms(sortType);
+    this._clearFilmList();
+    this._renderAllMovies();
+  }
+
+  /* --------------------------------------------- Очищаем основной список фильмов ------------------------------------------------- */
+
+  _clearFilmList() {
+    this._allFilmsListComponent.getElement().innerHTML = ``;
+    this._renderedFilmsCount = COUNT_MOVIE_CARD_STEP;
+    this._renderedFilmsFrom = 0;
+    this._renderedFilmsTo = 0;
+  }
+
+  /* --------------------------------------------- Рендерим сортировку фильмов ------------------------------------------------- */
+
+  _renderFilmSort() {
+    render(siteMain, this._filmSortComponent);
+    this._filmSortComponent.setSortTypeChangeHandler(this._handleSortTypeChange);
   }
 
   /* --------------------------------------------- Рендерим карточку фильма ------------------------------------------------- */
@@ -112,7 +158,6 @@ export default class FilmBoard {
     this._renderFilms(this._mostCommentedFilmsListComponent, this._mostCommentedFilms, 0, this._renderedFilmsExtraCount);
   }
 
-
   _handleShowMoreButtonClick() {
     this._calculateRange();
     this._renderMovies();
@@ -147,7 +192,7 @@ export default class FilmBoard {
   _renderAllMovies() {
     this._renderAllMoviesList();
 
-    render(this._filmsComponent, this._mainFilmListComponent);
+    render(this._filmsComponent, this._mainFilmListComponent, RenderPosition.AFTERBEGIN);
 
     this._calculateRange();
     this._renderMovies();
