@@ -1,7 +1,7 @@
 import Abstract from "./abstract.js";
 
-const createMovieCardTemplate = (card) => {
-  const {title, poster, rating, year, duration, description, isWatch, isHistory, isFavorites, genre, comments} = card;
+const createMovieCardTemplate = (film) => {
+  const {title, poster, rating, year, duration, description, isWatch, isHistory, isFavorites, genre, comments} = film;
 
   const isWatchClassName = isWatch ? `film-card__controls-item--active` : `film-card__controls-item`;
   const isHistoryClassName = isHistory ? `film-card__controls-item--active` : `film-card__controls-item`;
@@ -32,13 +32,26 @@ const createMovieCardTemplate = (card) => {
 };
 
 export default class MovieCard extends Abstract {
-  constructor(card) {
+  constructor(film) {
     super();
-    this._card = card;
+    this._film = film;
+    this._filmDetailsClickHandler = this._filmDetailsClickHandler.bind(this);
   }
 
   getTemplate() {
-    return createMovieCardTemplate(this._card);
+    return createMovieCardTemplate(this._film);
+  }
+
+  _filmDetailsClickHandler(evt) {
+    evt.preventDefault();
+    if (evt.target.classList.contains(`film-card__poster`) || evt.target.classList.contains(`film-card__title`) || evt.target.classList.contains(`film-card__comments`)) {
+      this._callback.filmDetailsClick();
+    }
+  }
+
+  setFilmDetailsClickHandler(callback) {
+    this._callback.filmDetailsClick = callback;
+    this.getElement().addEventListener(`click`, this._filmDetailsClickHandler);
   }
 }
 

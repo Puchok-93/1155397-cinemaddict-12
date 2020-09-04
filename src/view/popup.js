@@ -18,8 +18,8 @@ const createGenresTemplate = (genres) => {
   );
 };
 
-const createPopupTemplate = (card) => {
-  const {title, poster, rating, duration, date, description, director, country, age, genre, writers, actors, comments} = card;
+const createPopupTemplate = (film) => {
+  const {title, poster, rating, duration, date, description, director, country, age, genre, writers, actors, comments} = film;
   const releaseDate = date.toLocaleString(`en-GB`, {day: `numeric`, month: `long`, year: `numeric`});
   const genresMarkup = createGenresTemplate(genre);
   const commentsMarkup = createCommentsTemplate(comments);
@@ -104,14 +104,14 @@ const createPopupTemplate = (card) => {
 };
 
 export default class PopupCard extends Abstract {
-  constructor(card) {
+  constructor(film) {
     super();
-    this._card = card;
+    this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
-    return createPopupTemplate(this._card);
+    return createPopupTemplate(this._film);
   }
 
   _clickHandler(evt) {
@@ -119,7 +119,7 @@ export default class PopupCard extends Abstract {
     this._callback.click();
   }
 
-  setClickHandler(callback) {
+  setCloseButtonClickHandler(callback) {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
