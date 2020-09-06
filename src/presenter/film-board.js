@@ -1,7 +1,8 @@
 import {getTopRatedFilms, getMostCommentedFilms} from "../mock/movie-card.js";
 import {render, remove, RenderPosition} from "../utils/render.js";
+import {updateItem} from "../utils/common.js";
 import {sortByRating, sortByDate} from "../utils/sort-film.js";
-import {SortType, COUNT_MOVIE_CARD_STEP, COUNT_MOVIE_CARD_EXTRA} from "../const.js";
+import {SortType, COUNT_MOVIE_CARD_STEP, COUNT_MOVIE_CARD_EXTRA, FilmsType} from "../const.js";
 
 import SiteFilms from "../view/section-films.js";
 import SiteSort from "../view/sort.js";
@@ -23,29 +24,33 @@ export default class FilmBoard {
     this._renderedFilmsExtraCount = COUNT_MOVIE_CARD_EXTRA;
     this._currentSortType = SortType.DEFAULT;
 
+    this._allFilmPresenter = {};
+    this._topRatedFilmPresenter = {};
+    this._mostCommentedFilmPresenter = {};
+
     this._filmsComponent = new SiteFilms();
     this._filmSortComponent = new SiteSort();
     this._noFilmCardComponent = new NoFilmCard();
-
     this._mainFilmListComponent = new SectionFilmsList();
     this._topRatedFilmsComponent = new TopRatedFilms();
     this._mostcommentedFilmsComponent = new MostcommentedFilms();
-
     this._allFilmsListComponent = new FilmListContainer();
     this._topRatedFilmsListComponent = new FilmListContainer();
     this._mostCommentedFilmsListComponent = new FilmListContainer();
+    this._showMoreButtonComponent = new ShowMoreButton();
 
     this._renderedFilmsFrom = 0;
     this._renderedFilmsTo = 0;
 
-    this._showMoreButtonComponent = new ShowMoreButton();
+
+    this._handleFilmChange = this._handleFilmChange.bind(this);
     this._handleShowMoreButtonClick = this._handleShowMoreButtonClick.bind(this);
     this._handleSortTypeChange = this._handleSortTypeChange.bind(this);
   }
 
   init(films) {
     this._films = films.slice();
-    this._sourcedCards = films.slice();
+    this._sourcedFilms = films.slice();
 
     this._topRatedFilms = getTopRatedFilms(this._films);
     this._mostCommentedFilms = getMostCommentedFilms(this._films);
@@ -54,6 +59,20 @@ export default class FilmBoard {
     render(this._movieListContainer, this._filmsComponent);
 
     this._renderFilmLists();
+  }
+
+  _handleFilmChange(updatedFilm) {
+    this._films = updateItem(this._films, updatedFilm);
+    this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
+    if (this._allFilmPresenter[updatedFilm.id]) {
+      this._allFilmPresenter[updatedFilm.id].init(updatedFilm);
+    }
+    if (this._topRatedFilmPresenter[updatedFilm.id]) {
+      this._topRatedFilmPresenter[updatedFilm.id].init(updatedFilm);
+    }
+    if ( this._mostCommentedFilmPresenter[updatedFilm.id]) {
+      this._mostCommentedFilmPresenter[updatedFilm.id].init(updatedFilm);
+    }
   }
 
   /* --------------------------------------------- Сортируем фильмы --------------------------------------------- */
@@ -67,7 +86,7 @@ export default class FilmBoard {
         this._films.sort(sortByRating);
         break;
       default:
-        this._films = this._sourcedCards.slice();
+        this._films = this._sourcedFilms.slice();
     }
 
     this._currentSortType = sortType;
@@ -86,6 +105,8 @@ export default class FilmBoard {
   /* --------------------------------------------- Очищаем основной список фильмов ------------------------------------------------- */
 
   _clearFilmList() {
+    //Object.values(this._allFilmPresenter).forEach((presenter) => presenter.destroy());
+    //this._allFilmPresenter = {};
     this._allFilmsListComponent.getElement().innerHTML = ``;
     this._renderedFilmsCount = COUNT_MOVIE_CARD_STEP;
     this._renderedFilmsFrom = 0;
@@ -101,16 +122,27 @@ export default class FilmBoard {
 
   /* --------------------------------------------- Рендерим карточку фильма ------------------------------------------------- */
 
-  _renderFilmCard(container, film) {
-    const filmPresenter = new FilmCard(container);
+  _renderFilmCard(container, film, type) {
+    const filmPresenter = new FilmCard(container, this._handleFilmChange);
     filmPresenter.init(film);
+    switch (type) {
+      case FilmsType.ALL:
+        this._allFilmPresenter[film.id] = filmPresenter;
+        break;
+      case FilmsType.TOP_RATED:
+        this._topRatedFilmPresenter[film.id] = filmPresenter;
+        break;
+      case FilmsType.MOST_COMMENTED:
+        this._mostCommentedFilmPresenter[film.id] = filmPresenter;
+        break;
+    }
   }
 
   /* --------------------------------------------- Рендерим фильмы ------------------------------------------------- */
 
-  _renderFilms(container, films, from, to) {
+  _renderFilms(container, films, from, to, type) {
     films.slice(from, to)
-    .forEach((film) => this._renderFilmCard(container, film));
+    .forEach((film) => this._renderFilmCard(container, film, type));
   }
 
   /* --------------------------------------------- Рендерим заглушку, если нет фильмов ------------------------------------------------- */

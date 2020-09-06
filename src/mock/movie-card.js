@@ -1,6 +1,10 @@
 import {getRandomInteger, generateSet} from "../utils/common.js";
 import {generateComments} from "./comment.js";
 
+/* Генерируем сулчайный ID*/
+
+const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+
 const Title = {
   DANCE: `The Dance of Life`,
   SAGEBRUSH: `Sagebrush Trail`,
@@ -258,6 +262,7 @@ const ActorsCount = {
 const generateMovieCard = () => {
   const commentsCount = getRandomInteger(0, 5);
   return {
+    id: generateId(),
     title: generateMovieTitle(),
     poster: generateMoviePoster(),
     rating: getRandomInteger(FilmRating.MIN, FilmRating.MAX),
