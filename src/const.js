@@ -23,9 +23,13 @@ export const EscButton = {
   ESC: `Esc`,
 };
 
-
 export const FilmsType = {
   ALL: `all`,
   TOP_RATED: `top rated`,
   MOST_COMMENTED: `most commented`
+};
+
+export const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
 };

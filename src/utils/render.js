@@ -39,6 +39,23 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
+export const replace = (oldElement, newElement) => {
+  if (oldElement instanceof Abstract) {
+    oldElement = oldElement.getElement();
+  }
+
+  if (newElement instanceof Abstract) {
+    newElement = newElement.getElement();
+  }
+
+  if (oldElement === null || newElement === null) {
+    throw new Error(`Can't replace unexisting elements`);
+  }
+
+  oldElement.replaceWith(newElement);
+};
+
+
 export const remove = (component) => {
   if (!(component instanceof Abstract)) {
     throw new Error(`Can remove only components`);
