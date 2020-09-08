@@ -71,14 +71,18 @@ export default class FilmBoard {
   _handleFilmCardChange(updatedFilm) {
     this._films = updateItem(this._films, updatedFilm);
     this._sourcedFilms = updateItem(this._sourcedFilms, updatedFilm);
-    if (this._allFilmPresenter[updatedFilm.id]) {
-      this._allFilmPresenter[updatedFilm.id].init(updatedFilm);
+    const allFilmPresenter = this._allFilmPresenter[updatedFilm.id];
+    const topRatedFilmPresenter = this._topRatedFilmPresenter[updatedFilm.id];
+    const mostCommentedFilmPresenter = this._mostCommentedFilmPresenter[updatedFilm.id];
+
+    if (allFilmPresenter) {
+      allFilmPresenter.init(updatedFilm);
     }
-    if (this._topRatedFilmPresenter[updatedFilm.id]) {
-      this._topRatedFilmPresenter[updatedFilm.id].init(updatedFilm);
+    if (topRatedFilmPresenter) {
+      topRatedFilmPresenter.init(updatedFilm);
     }
-    if (this._mostCommentedFilmPresenter[updatedFilm.id]) {
-      this._mostCommentedFilmPresenter[updatedFilm.id].init(updatedFilm);
+    if (mostCommentedFilmPresenter) {
+      mostCommentedFilmPresenter.init(updatedFilm);
     }
   }
 
@@ -121,7 +125,6 @@ export default class FilmBoard {
   _renderFilmCard(container, film, type) {
     const filmPresenter = new FilmCard(container, this._handleFilmCardChange, this._handleModeChange);
     filmPresenter.init(film);
-    this._allFilmPresenter[film.id] = filmPresenter;
     switch (type) {
       case FilmsType.ALL:
         this._allFilmPresenter[film.id] = filmPresenter;
@@ -174,7 +177,7 @@ export default class FilmBoard {
   /* --------------------------------------------- Рендерим карточки фильмов  ------------------------------------------------- */
 
   _renderMovies() {
-    this._renderFilms(this._allFilmsListComponent, this._films, this._renderedFilmsFrom, this._renderedFilmsTo);
+    this._renderFilms(this._allFilmsListComponent, this._films, this._renderedFilmsFrom, this._renderedFilmsTo, FilmsType.ALL);
   }
 
   /* ---------------------------------------------Рендерим основной блок с фильмами  ------------------------------------------------- */
@@ -194,7 +197,7 @@ export default class FilmBoard {
   /* --------------------------------------------- Рендерим top rated блок  ------------------------------------------------- */
 
   _renderTopRatedFilms() {
-    this._renderFilms(this._topRatedFilmsListComponent, this._topRatedFilms, 0, this._renderedFilmsExtraCount);
+    this._renderFilms(this._topRatedFilmsListComponent, this._topRatedFilms, 0, this._renderedFilmsExtraCount, FilmsType.TOP_RATED);
     render(this._filmsComponent, this._topRatedFilmsComponent);
     render(this._topRatedFilmsComponent, this._topRatedFilmsListComponent);
   }
@@ -202,7 +205,7 @@ export default class FilmBoard {
   /* --------------------------------------------- Рендерим most commented блок  ------------------------------------------------- */
 
   _renderMostCommented() {
-    this._renderFilms(this._mostCommentedFilmsListComponent, this._mostCommentedFilms, 0, this._renderedFilmsExtraCount);
+    this._renderFilms(this._mostCommentedFilmsListComponent, this._mostCommentedFilms, 0, this._renderedFilmsExtraCount, FilmsType.MOST_COMMENTED);
     render(this._filmsComponent, this._mostcommentedFilmsComponent);
     render(this._mostcommentedFilmsComponent, this._mostCommentedFilmsListComponent);
   }
