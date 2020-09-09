@@ -288,14 +288,14 @@ export const generateMovieCards = (count) => {
   return new Array(count).fill().map(generateMovieCard);
 };
 
-export const getTopRatedFilms = (cards, count) => {
-  return cards.sort((a, b) => {
-    return b.raiting - a.raiting;
-  }).slice(0, count);
+export const getTopRatedFilms = (cards) => {
+  return cards.slice().sort((a, b) => {
+    return b.rating - a.rating;
+  });
 };
 
-export const getMostCommentedFilms = (cards, count) => {
-  return cards.sort((a, b) => {
+export const getMostCommentedFilms = (cards) => {
+  return cards.slice().sort((a, b) => {
     return b.comments.length - a.comments.length;
-  }).slice(0, count);
+  });
 };

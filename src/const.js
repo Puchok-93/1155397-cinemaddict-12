@@ -33,3 +33,4 @@ export const Mode = {
   DEFAULT: `DEFAULT`,
   POPUP: `POPUP`
 };
+
