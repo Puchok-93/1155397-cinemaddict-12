@@ -8,7 +8,7 @@ const createFilmsListTemplate = () => {
   );
 };
 
-export default class SectionFilmsList extends Abstract {
+export default class AllFilms extends Abstract {
   getTemplate() {
     return createFilmsListTemplate();
   }
