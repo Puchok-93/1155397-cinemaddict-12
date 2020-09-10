@@ -1,7 +1,8 @@
 import Abstract from "./abstract.js";
+import {durationFilm, dateFilm} from "../utils/date.js";
 
 const createMovieCardTemplate = (film) => {
-  const {title, poster, rating, year, duration, description, isWatch, isHistory, isFavorites, genre, comments} = film;
+  const {title, poster, rating, duration, description, isWatch, isHistory, isFavorites, genre, comments, date} = film;
   const numberOfComments = comments.length === 1 ? `${comments.length} comment` : `${comments.length} comments`;
   const decimalRating = (rating / 10).toFixed(1);
   const addActiveClassName = (flag) => {
@@ -13,8 +14,8 @@ const createMovieCardTemplate = (film) => {
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${decimalRating}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${year}</span>
-      <span class="film-card__duration">${duration}</span>
+      <span class="film-card__year">${dateFilm(date)}</span>
+      <span class="film-card__duration">${durationFilm(duration)}</span>
        <span class="film-card__genre">${genre[0]}</span>
     </p>
     <img src="./images/posters/${poster}" alt="" class="film-card__poster">

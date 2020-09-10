@@ -70,20 +70,6 @@ const generateComment = () => {
   return randomIndex;
 };
 
-/* Генерируем случайную  продолжительность */
-const FilmDurationMax = {
-  HOURS: 4,
-  MINUTES: 60,
-};
-
-const generateDuration = () => {
-  const {HOURS, MINUTES} = FilmDurationMax;
-  const hoursDuration = getRandomInteger(0, HOURS);
-  const minutesDuration = getRandomInteger(0, MINUTES);
-
-  return `${hoursDuration > 0 ? `${hoursDuration}h` : ``} ${minutesDuration > 0 ? `${minutesDuration}m` : ``}`;
-};
-
 
 /* Генерируем случайное описание фильма*/
 
@@ -259,6 +245,13 @@ const ActorsCount = {
   MAX: 5
 };
 
+/* Генерируем случайную  продолжительность */
+const FilmDuration = {
+  MIN: 25,
+  MAX: 240
+};
+
+
 const generateMovieCard = () => {
   const commentsCount = getRandomInteger(0, 5);
   return {
@@ -269,7 +262,7 @@ const generateMovieCard = () => {
     year: generateMovieYear(),
     comment: generateComment(),
     date: generateDate(),
-    duration: generateDuration(),
+    duration: getRandomInteger(FilmDuration.MIN, FilmDuration.MAX),
     description: generateDescription(),
     isWatch: Boolean(getRandomInteger(0, 1)),
     isHistory: Boolean(getRandomInteger(0, 1)),

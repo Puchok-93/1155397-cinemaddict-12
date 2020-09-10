@@ -1,4 +1,5 @@
 import {createCommentsTemplate} from "./comment.js";
+import {durationFilm, dateFilm} from "../utils/date.js";
 import Smart from "./smart.js";
 
 const createGenresTemplate = (genres) => {
@@ -20,7 +21,6 @@ const createGenresTemplate = (genres) => {
 
 const createPopupTemplate = (data) => {
   const {title, poster, rating, duration, date, description, director, country, age, genre, writers, actors, comments, isWatch, isHistory, isFavorites, isEmoji, emojiName} = data;
-  const releaseDate = date.toLocaleString(`en-GB`, {day: `numeric`, month: `long`, year: `numeric`});
   const genresMarkup = createGenresTemplate(genre);
   const commentsMarkup = createCommentsTemplate(comments, isEmoji, emojiName);
   const decimalRating = (rating / 10).toFixed(1);
@@ -66,11 +66,11 @@ const createPopupTemplate = (data) => {
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Release Date</td>
-                    <td class="film-details__cell">${releaseDate}</td>
+                    <td class="film-details__cell">${dateFilm(date, true)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Runtime</td>
-                    <td class="film-details__cell">${duration}</td>
+                    <td class="film-details__cell">${durationFilm(duration)}</td>
                   </tr>
                   <tr class="film-details__row">
                     <td class="film-details__term">Country</td>
