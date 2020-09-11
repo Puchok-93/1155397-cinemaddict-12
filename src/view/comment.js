@@ -1,21 +1,12 @@
 import {EMOJIS} from "../const.js";
-
-const formatCommentDate = (day) => {
-  const year = day.getFullYear();
-  const month = (day.getMonth() + 1) < 10 ? `0${day.getMonth() + 1}` : day.getMonth();
-  const date = day.getDate() < 10 ? `0${day.getDate()}` : day.getDate();
-  const hours = day.getHours();
-  const minutes = day.getMinutes() < 10 ? `0${day.getMinutes()}` : day.getMinutes();
-
-  return `${ year}/${month}/${date} ${hours}:${minutes}`;
-};
+import {humanizeCommentDate} from "../utils/date.js";
 
 const createCommentTemplate = (comments) => {
 
   return comments.map((comment) => {
     const {emoji, text, author, day} = comment;
 
-    const date = formatCommentDate(day);
+    const date = humanizeCommentDate(day);
 
     return (
       `<li class="film-details__comment">
