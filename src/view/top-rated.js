@@ -1,14 +1,14 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createTopRatedFimlsTemplate = () => {
   return (
     `<section class="films-list--extra">
-    <h2 class="films-list__title">Top rated</h2>
-    </section>`
+      <h2 class="films-list__title">Top rated</h2>
+      </section>`
   );
 };
 
-export default class TopRatedFilms extends Abstract {
+export default class TopRated extends AbstractView {
   getTemplate() {
     return createTopRatedFimlsTemplate();
   }

@@ -1,7 +1,17 @@
-export const sortByRating = (filmA, filmB) => {
-  return filmB.rating - filmA.rating;
+export const sortByRating = (films) => {
+  return films.sort((a, b) => {
+    return b.rating - a.rating;
+  });
 };
 
-export const sortByDate = (filmA, filmB) => {
-  return filmB.year - filmA.year;
+export const sortByCommentsCount = (films) => {
+  return films.sort((a, b) => {
+    return b.comments.length - a.comments.length;
+  });
+};
+
+export const sortByDate = (films) => {
+  return films.sort((a, b) => {
+    return b.date.getTime() - a.date.getTime();
+  });
 };

@@ -1,50 +1,59 @@
-import Abstract from "../view/abstract.js";
+import AbstractView from "../view/abstract.js";
 
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  BEFORE: `before`
 };
 
-export const render = (container, child, place = `beforeend`) => {
-  if (container instanceof Abstract) {
+const {AFTERBEGIN, BEFOREEND, BEFORE} = RenderPosition;
+
+export const render = (container, element, place = BEFOREEND, targetElement) => {
+  if (container instanceof AbstractView) {
     container = container.getElement();
   }
 
-  if (child instanceof Abstract) {
-    child = child.getElement();
+  if (element instanceof AbstractView) {
+    element = element.getElement();
+  }
+
+  if (targetElement instanceof AbstractView) {
+    targetElement = targetElement.getElement();
   }
 
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(child);
+    case AFTERBEGIN:
+      container.prepend(element);
       break;
-    case RenderPosition.BEFOREEND:
-      container.append(child);
+    case BEFOREEND:
+      container.append(element);
       break;
+    case BEFORE:
+      container.insertBefore(element, targetElement);
   }
 };
 
-export const renderTemplate = (container, template, place = `beforeend`) => {
-  if (container instanceof Abstract) {
+export const renderTemplate = (container, markup, place = BEFOREEND) => {
+  if (container instanceof AbstractView) {
     container = container.getElement();
   }
 
-  container.insertAdjacentHTML(place, template);
+  container.insertAdjacentHTML(place, markup);
 };
 
-export const createElement = (template) => {
+export const createElement = (markup) => {
   const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
+  newElement.innerHTML = markup;
 
-  return newElement.firstChild;
+  return newElement.firstElementChild;
 };
 
 export const replace = (oldElement, newElement) => {
-  if (oldElement instanceof Abstract) {
+  if (oldElement instanceof AbstractView) {
     oldElement = oldElement.getElement();
   }
 
-  if (newElement instanceof Abstract) {
+  if (newElement instanceof AbstractView) {
     newElement = newElement.getElement();
   }
 
@@ -55,9 +64,12 @@ export const replace = (oldElement, newElement) => {
   oldElement.replaceWith(newElement);
 };
 
-
 export const remove = (component) => {
-  if (!(component instanceof Abstract)) {
+  if (component === null) {
+    return;
+  }
+
+  if (!(component instanceof AbstractView)) {
     throw new Error(`Can remove only components`);
   }
 

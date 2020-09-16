@@ -1,8 +1,8 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createSecionFilmsTemplate = () => `<section class="films"></section>`;
 
-export default class SiteFilms extends Abstract {
+export default class Films extends AbstractView {
   getTemplate() {
     return createSecionFilmsTemplate();
   }

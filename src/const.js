@@ -1,16 +1,43 @@
+
 export const COUNT_MOVIE_CARD = 25;
 export const COUNT_MOVIE_CARD_STEP = 5;
 export const COUNT_MOVIE_CARD_EXTRA = 2;
+export const ANONS_DESCRIPTION_LENGTH = 140;
+
 export const EMOJIS = [
   `./images/emoji/smile.png`,
   `./images/emoji/sleeping.png`,
   `./images/emoji/puke.png`,
   `./images/emoji/angry.png`
 ];
+
 export const MAX_DAYS_GUP = 30;
 export const MAX_HOURS = 23;
 export const MAX_MINUTES = 59;
-export const CLICK_ITEMS = [`.film-card__title`, `.film-card__poster`, `.film-card__comments`];
+
+export const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
+};
+
+export const UserAction = {
+  UPDATE: `UPDATE_FILM`,
+  ADD: `ADD_COMMENT`,
+  DELETE: `DELETE_COMMENT`
+};
+
+export const UpdateType = {
+  PATCH: `PATCH`,
+  MINOR: `MINOR`,
+  MAJOR: `MAJOR`
+};
+
+export const FilterType = {
+  ALL: `allmovies`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`
+};
 
 export const SortType = {
   DEFAULT: `default`,
@@ -25,12 +52,6 @@ export const EscButton = {
 
 export const FilmsType = {
   ALL: `all`,
-  TOP_RATED: `top rated`,
-  MOST_COMMENTED: `most commented`
+  RATED: `top rated`,
+  COMMENTED: `most commented`
 };
-
-export const Mode = {
-  DEFAULT: `DEFAULT`,
-  POPUP: `POPUP`
-};
-

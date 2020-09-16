@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomValue} from "../utils/common.js";
+import {getRandomInteger, getRandomValue, generateID} from "../utils/common.js";
 import {EMOJIS, MAX_DAYS_GUP, MAX_HOURS, MAX_MINUTES} from "../const.js";
 
 
@@ -53,9 +53,10 @@ const SURNAMES = [
   Surname.WAYNE,
 ];
 
-const generateRandomName = () => {
+export const generateRandomName = () => {
   return `${getRandomValue(NAMES)} ${getRandomValue(SURNAMES)}`;
 };
+
 
 /* Генерируем случайную дату комментария */
 
@@ -71,6 +72,7 @@ const generateDate = () => {
 
 const generateComment = () => {
   return {
+    id: generateID(),
     emoji: getRandomValue(EMOJIS),
     text: generateCommentText(),
     author: generateRandomName(),
@@ -81,4 +83,3 @@ const generateComment = () => {
 export const generateComments = (count) => {
   return new Array(count).fill().map(generateComment);
 };
-

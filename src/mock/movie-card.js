@@ -1,9 +1,7 @@
-import {getRandomInteger, generateSet} from "../utils/common.js";
+import {getRandomInteger, generateID, generateSet} from "../utils/common.js";
 import {generateComments} from "./comment.js";
 
-/* Генерируем сулчайный ID*/
-
-const generateId = () => Date.now() + parseInt(Math.random() * 10000, 10);
+/* ---------------------------------------------------------------- Генерируем заголовок ---------------------------------------------------------------- */
 
 const Title = {
   DANCE: `The Dance of Life`,
@@ -26,16 +24,16 @@ const generateMovieTitle = () => {
   return TITLES[randomIndex];
 };
 
-/* Генерируем случайный постер фильма*/
+/* ---------------------------------------------------------------- Генерируем постер ---------------------------------------------------------------- */
 
 const Poster = {
-  EACH_OTHER: `made-for-each-other.png`,
-  POPEYE: `popeye-meets-sinbad.png`,
-  SAGEBRUSH: `sagebrush-trail.jpg`,
-  SANTA: `santa-claus-conquers-the-martians.jpg`,
-  DANCE: `the-dance-of-life.jpg`,
-  FLAMARION: `the-great-flamarion.jpg`,
-  GOLDEN: `the-man-with-the-golden-arm.jpg`
+  EACH_OTHER: `./images/posters/made-for-each-other.png`,
+  POPEYE: `./images/posters/popeye-meets-sinbad.png`,
+  SAGEBRUSH: `./images/posters/sagebrush-trail.jpg`,
+  SANTA: `./images/posters/santa-claus-conquers-the-martians.jpg`,
+  DANCE: `./images/posters/the-dance-of-life.jpg`,
+  FLAMARION: `./images/posters/the-great-flamarion.jpg`,
+  GOLDEN: `./images/posters/the-man-with-the-golden-arm.jpg`
 };
 
 const POSTERS = [
@@ -51,65 +49,7 @@ const generateMoviePoster = () => {
   return POSTERS[randomIndex];
 };
 
-/* Генерируем случайный рейтинг для карточки анонса */
-
-const FilmRating = {
-  MIN: 1,
-  MAX: 100,
-};
-
-/* Генерируем случайный год выпуска для карточки анонса */
-const generateMovieYear = () => {
-  const randomIndex = getRandomInteger(1875, 1945);
-  return randomIndex;
-};
-
-/* Генерируем случайное количество комментариев для карточки анонса */
-const generateComment = () => {
-  const randomIndex = getRandomInteger(0, 5);
-  return randomIndex;
-};
-
-
-/* Генерируем случайное описание фильма*/
-
-export const generateDescription = () => {
-  const descriptions = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
-
-  const descriptionsArr = descriptions.split(`. `);
-  const descriptionsSlice = descriptionsArr.slice(getRandomInteger(0, descriptionsArr.length - 1));
-
-  return descriptionsSlice;
-};
-/* Генерируем случайную дату релиза фильма*/
-
-const filmDate = {
-  day: {
-    first: 1,
-    last: 31,
-  },
-  month: {
-    first: 0,
-    last: 11
-  },
-  year: {
-    first: 1875,
-    last: new Date().getFullYear()
-  }
-};
-
-const generateDate = () => {
-  const {day, month, year} = filmDate;
-
-  const randomYear = getRandomInteger(year.first, year.last);
-  const randomMonth = getRandomInteger(month.first, month.last);
-  const randomDate = getRandomInteger(day.first, day.last);
-  const date = new Date(randomYear, randomMonth, randomDate);
-
-  return date;
-};
-
-/* Генерируем случайных режисеров фильма */
+/* ---------------------------------------------------------------- Генерируем случайных режисеров фильма ---------------------------------------------------------------- */
 
 const Director = {
   MANN: `Anthony Mann`,
@@ -132,76 +72,7 @@ const generateDirector = () => {
   return DIRECTORS[randomIndex];
 };
 
-/* Генерируем случайную страну */
-
-const Country = {
-  USA: `USA`,
-  GERMANY: `Germany`,
-  ENGLAND: `England`,
-  SCOTLAND: `Scotland`,
-  ITALY: `Italy`,
-};
-
-const COUNTRIES = [
-  Country.USA,
-  Country.GERMANY,
-  Country.ENGLAND,
-  Country.SCOTLAND,
-  Country.ITALY,
-];
-
-const generateCountry = () => {
-  const randomIndex = getRandomInteger(0, COUNTRIES.length - 1);
-  return COUNTRIES[randomIndex];
-};
-
-/* Генерируем возрастной рейтинг страну */
-
-const AgeRaiting = {
-  G: `0+`,
-  PG: `6+`,
-  PG13: `12+`,
-  R: `16+`,
-  NC17: `18+`,
-};
-
-const AGE_RAITING = [
-  AgeRaiting.G,
-  AgeRaiting.PG,
-  AgeRaiting.PG13,
-  AgeRaiting.R,
-  AgeRaiting.NC17,
-];
-
-const generateAgeRaiting = () => {
-  const randomIndex = getRandomInteger(0, AGE_RAITING.length - 1);
-  return AGE_RAITING[randomIndex];
-};
-
-/* Генерируем жанры */
-
-const Genre = {
-  MUSICAL: `Musical`,
-  WESTERN: `Western`,
-  DRAMA: `Drama`,
-  COMEDY: `Comedy`,
-  CARTOON: `Cartoon`,
-};
-
-const GENRES = [
-  Genre.MUSICAL,
-  Genre.WESTERN,
-  Genre.DRAMA,
-  Genre.COMEDY,
-  Genre.CARTOON,
-];
-
-const GenresCount = {
-  MIN: 1,
-  MAX: 3
-};
-
-/* Генерируем писателей */
+/* ---------------------------------------------------------------- Генерируем писателей ---------------------------------------------------------------- */
 
 const Writers = {
   KING: `Steven King`,
@@ -222,7 +93,7 @@ const WritersCount = {
   MAX: 4
 };
 
-/* Генерируем актеров */
+/* ---------------------------------------------------------------- Генерируем актеров ---------------------------------------------------------------- */
 
 const Actors = {
   MCGREGOR: `Ewan McGregor`,
@@ -245,50 +116,145 @@ const ActorsCount = {
   MAX: 5
 };
 
-/* Генерируем случайную  продолжительность */
+/* ---------------------------------------------------------------- Генерируем случайную страну ---------------------------------------------------------------- */
+
+const Country = {
+  USA: `USA`,
+  GERMANY: `Germany`,
+  ENGLAND: `England`,
+  SCOTLAND: `Scotland`,
+  ITALY: `Italy`,
+};
+
+const COUNTRIES = [
+  Country.USA,
+  Country.GERMANY,
+  Country.ENGLAND,
+  Country.SCOTLAND,
+  Country.ITALY,
+];
+
+const generateCountry = () => {
+  const randomIndex = getRandomInteger(0, COUNTRIES.length - 1);
+  return COUNTRIES[randomIndex];
+};
+
+/* ---------------------------------------------------------------- Генерируем жанры ---------------------------------------------------------------- */
+
+const Genre = {
+  MUSICAL: `Musical`,
+  WESTERN: `Western`,
+  DRAMA: `Drama`,
+  COMEDY: `Comedy`,
+  CARTOON: `Cartoon`,
+};
+
+const GENRES = [
+  Genre.MUSICAL,
+  Genre.WESTERN,
+  Genre.DRAMA,
+  Genre.COMEDY,
+  Genre.CARTOON,
+];
+
+const GenresCount = {
+  MIN: 1,
+  MAX: 3
+};
+
+/* ---------------------------------------------------------------- Генерируем случайный рейтинг ---------------------------------------------------------------- */
+
+const AgeRating = {
+  G: `0+`,
+  PG: `6+`,
+  PG13: `12+`,
+  R: `16+`,
+  NC17: `18+`,
+};
+
+const AGE_RATING = [
+  AgeRating.G,
+  AgeRating.PG,
+  AgeRating.PG13,
+  AgeRating.R,
+  AgeRating.NC17,
+];
+
+const generateAgeRating = () => {
+  const randomIndex = getRandomInteger(0, AGE_RATING.length - 1);
+  return AGE_RATING[randomIndex];
+};
+
+
+/*  ---------------------------------------------------------------- Генерируем случайное описание фильма ---------------------------------------------------------------- */
+
+export const generateDescription = () => {
+  const descriptions = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
+
+  const descriptionsArr = descriptions.split(`. `);
+  const descriptionsSlice = descriptionsArr.slice(getRandomInteger(0, descriptionsArr.length - 1));
+
+  return descriptionsSlice;
+};
+
+const filmDate = {
+  first: new Date(1895, 0, 1),
+  last: new Date()
+};
+
+/* ---------------------------------------------------------------- Генерируем случайный продолжительность ---------------------------------------------------------------- */
+
 const FilmDuration = {
-  MIN: 25,
+  MIN: 5,
   MAX: 240
 };
 
+/* ---------------------------------------------------------------- Генерируем случайный рейтинг фильма ---------------------------------------------------------------- */
+
+const FilmRating = {
+  MIN: 10,
+  MAX: 100
+};
+
+const generateRating = () => {
+  const {MIN, MAX} = FilmRating;
+  return (getRandomInteger(MIN, MAX) / 10).toFixed(1);
+};
+
+const generateDate = () => {
+  const {first, last} = filmDate;
+  const minTimestamp = first - new Date(0);
+  const maxTimestamp = last - new Date(0);
+  const randomTimestamp = getRandomInteger(minTimestamp, maxTimestamp);
+
+  const date = new Date(randomTimestamp);
+  return date;
+};
 
 const generateMovieCard = () => {
   const commentsCount = getRandomInteger(0, 5);
   return {
-    id: generateId(),
+    id: generateID(),
     title: generateMovieTitle(),
     poster: generateMoviePoster(),
-    rating: getRandomInteger(FilmRating.MIN, FilmRating.MAX),
-    year: generateMovieYear(),
-    comment: generateComment(),
+    originalTitle: generateMovieTitle(),
+    rating: generateRating(),
+    director: generateDirector(),
     date: generateDate(),
     duration: getRandomInteger(FilmDuration.MIN, FilmDuration.MAX),
-    description: generateDescription(),
-    isWatch: Boolean(getRandomInteger(0, 1)),
-    isHistory: Boolean(getRandomInteger(0, 1)),
-    isFavorites: Boolean(getRandomInteger(0, 1)),
-    director: generateDirector(),
     country: generateCountry(),
-    age: generateAgeRaiting(),
-    genre: generateSet(GENRES, GenresCount),
+    description: generateDescription(),
+    age: generateAgeRating(),
+    isWatchList: Boolean(getRandomInteger(0, 1)),
+    isWatched: Boolean(getRandomInteger(0, 1)),
+    isFavorites: Boolean(getRandomInteger(0, 1)),
+    genres: generateSet(GENRES, GenresCount),
     writers: generateSet(WRITERS, WritersCount),
     actors: generateSet(ACTORS, ActorsCount),
-    comments: generateComments(commentsCount)
+    comments: generateComments(commentsCount),
   };
 };
 
 export const generateMovieCards = (count) => {
   return new Array(count).fill().map(generateMovieCard);
-};
-
-export const getTopRatedFilms = (cards) => {
-  return cards.slice().sort((a, b) => {
-    return b.rating - a.rating;
-  });
-};
-
-export const getMostCommentedFilms = (cards) => {
-  return cards.slice().sort((a, b) => {
-    return b.comments.length - a.comments.length;
-  });
 };
