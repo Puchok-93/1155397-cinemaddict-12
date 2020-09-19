@@ -1,4 +1,4 @@
-import Abstract from "./abstract.js";
+import AbstractView from "./abstract.js";
 
 const createUserProfileTemplate = () => {
   return (
@@ -9,7 +9,7 @@ const createUserProfileTemplate = () => {
   );
 };
 
-export default class UserProfile extends Abstract {
+export default class UserProfile extends AbstractView {
   getTemplate() {
     return createUserProfileTemplate();
   }

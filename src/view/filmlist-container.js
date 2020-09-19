@@ -1,13 +1,12 @@
 import AbstractView from "./abstract.js";
 
 const createFilmLIstContainerTemplate = () => {
-  return (
-    `<div class="films-list__container"></div>`
-  );
+  return (`<div class="films-list__container"></div>`);
 };
 
-export default class FilmsList extends AbstractView {
+export default class FilmContainer extends AbstractView {
   getTemplate() {
+
     return createFilmLIstContainerTemplate();
   }
 }

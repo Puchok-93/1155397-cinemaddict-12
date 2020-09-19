@@ -1,8 +1,22 @@
-
+export const ESC_CODE = `Escape`;
+export const ENTER_CODE = `Enter`;
+export const ANONS_DESCRIPTION_LENGTH = 140;
 export const COUNT_MOVIE_CARD = 25;
 export const COUNT_MOVIE_CARD_STEP = 5;
 export const COUNT_MOVIE_CARD_EXTRA = 2;
-export const ANONS_DESCRIPTION_LENGTH = 140;
+export const MAX_DAYS_GUP = 30;
+export const MAX_HOURS = 23;
+export const MAX_MINUTES = 59;
+export const EXTRA_FILMS_LIST_TITLES = [`Top rated`, `Top commented`];
+export const DEFAULT_FILM_LIST_CLASS = `films-list`;
+export const EXTRA_FILMS_LIST_CLASS = `films-list--extra`;
+export const COUNT_EXTRA_FILMS_LISTS = 2;
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`
+};
 
 export const EMOJIS = [
   `./images/emoji/smile.png`,
@@ -11,19 +25,17 @@ export const EMOJIS = [
   `./images/emoji/angry.png`
 ];
 
-export const MAX_DAYS_GUP = 30;
-export const MAX_HOURS = 23;
-export const MAX_MINUTES = 59;
-
-export const Mode = {
-  DEFAULT: `DEFAULT`,
-  POPUP: `POPUP`
+export const emojiMap = {
+  smile: `./images/emoji/smile.png`,
+  puke: `./images/emoji/puke.png`,
+  sleeping: `./images/emoji/sleeping.png`,
+  angry: `./images/emoji/angry.png`,
 };
 
 export const UserAction = {
-  UPDATE: `UPDATE_FILM`,
-  ADD: `ADD_COMMENT`,
-  DELETE: `DELETE_COMMENT`
+  UPDATE_FILM: `UPDATE_FILM`,
+  ADD_COMMENT: `ADD_COMMENT`,
+  DELETE_COMMENT: `DELETE_COMMENT`
 };
 
 export const UpdateType = {
@@ -33,25 +45,20 @@ export const UpdateType = {
 };
 
 export const FilterType = {
-  ALL: `allmovies`,
+  ALL: `all`,
   WATCHLIST: `watchlist`,
   HISTORY: `history`,
   FAVORITES: `favorites`
 };
 
-export const SortType = {
-  DEFAULT: `default`,
-  DATE: `date`,
-  RATING: `rating`
+export const Mode = {
+  DEFAULT: `DEFAULT`,
+  POPUP: `POPUP`
 };
 
-export const EscButton = {
+export const buttonCode = {
   ESCAPE: `Escape`,
   ESC: `Esc`,
-};
-
-export const FilmsType = {
-  ALL: `all`,
-  RATED: `top rated`,
-  COMMENTED: `most commented`
+  ENTER: `Enter`,
+  CTRL: `Ctrl`
 };

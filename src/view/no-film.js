@@ -1,3 +1,4 @@
+
 import AbstractView from "./abstract.js";
 
 const createNoFilmCardTemplate = () => {

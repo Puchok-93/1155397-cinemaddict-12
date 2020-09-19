@@ -3,68 +3,41 @@ import AbstractView from "../view/abstract.js";
 export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
-  BEFORE: `before`
 };
 
-const {AFTERBEGIN, BEFOREEND, BEFORE} = RenderPosition;
 
-export const render = (container, element, place = BEFOREEND, targetElement) => {
+export const renderTemplate = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
+
+export const render = (container, child, place) => {
   if (container instanceof AbstractView) {
     container = container.getElement();
   }
 
-  if (element instanceof AbstractView) {
-    element = element.getElement();
-  }
-
-  if (targetElement instanceof AbstractView) {
-    targetElement = targetElement.getElement();
+  if (child instanceof AbstractView) {
+    child = child.getElement();
   }
 
   switch (place) {
-    case AFTERBEGIN:
-      container.prepend(element);
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(child);
       break;
-    case BEFOREEND:
-      container.append(element);
+    case RenderPosition.BEFOREEND:
+      container.append(child);
       break;
-    case BEFORE:
-      container.insertBefore(element, targetElement);
   }
 };
 
-export const renderTemplate = (container, markup, place = BEFOREEND) => {
-  if (container instanceof AbstractView) {
-    container = container.getElement();
-  }
-
-  container.insertAdjacentHTML(place, markup);
-};
-
-export const createElement = (markup) => {
+export const createElement = (template) => {
   const newElement = document.createElement(`div`);
-  newElement.innerHTML = markup;
+  newElement.innerHTML = template;
 
-  return newElement.firstElementChild;
-};
-
-export const replace = (oldElement, newElement) => {
-  if (oldElement instanceof AbstractView) {
-    oldElement = oldElement.getElement();
-  }
-
-  if (newElement instanceof AbstractView) {
-    newElement = newElement.getElement();
-  }
-
-  if (oldElement === null || newElement === null) {
-    throw new Error(`Can't replace unexisting elements`);
-  }
-
-  oldElement.replaceWith(newElement);
+  return newElement.firstChild;
 };
 
 export const remove = (component) => {
+
   if (component === null) {
     return;
   }
@@ -75,4 +48,22 @@ export const remove = (component) => {
 
   component.getElement().remove();
   component.removeElement();
+};
+
+export const replace = (newChild, oldChild) => {
+  if (oldChild instanceof AbstractView) {
+    oldChild = oldChild.getElement();
+  }
+
+  if (newChild instanceof AbstractView) {
+    newChild = newChild.getElement();
+  }
+
+  const parent = oldChild.parentElement;
+
+  if (parent === null || oldChild === null || newChild === null) {
+    throw new Error(`Can't replace unexisting elements`);
+  }
+
+  parent.replaceChild(newChild, oldChild);
 };
